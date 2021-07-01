@@ -12,12 +12,21 @@ class PostController extends Controller
     }
     //등록폼
     public function create(){
-        $name = '홍길동';
+        // dd('OK');
         return view('posts.create');
     }
     //db에 등록
-    public function store(){
+    public function store(Request $request){
+        // $request->input['title'];
+        // $request->input['content'];
+        $title = $request->title;
+        $content = $request->content;
+
+        dd($request);
+
+        //db에 저장
         
+        //결과 뷰를 반환
     }
     //수정폼
     public function edit(){

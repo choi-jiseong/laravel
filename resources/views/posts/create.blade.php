@@ -8,14 +8,15 @@
 </head>
 <body>
     <div class="container">
-        <form>
+        <form action="/posts/store" method="post">
+          @csrf
             <div class="form-group">
               <label for="title">Title</label>
-              <input type="text" class="form-control" id="title" >
+              <input type="text" name="title" class="form-control" id="title" >
             </div>
             <div class="form-group">
               <label for="content">Content</label>
-              <textarea class="form-control" id="content"></textarea>
+              <textarea class="form-control" name="content" id="content"></textarea>
             </div><br>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
