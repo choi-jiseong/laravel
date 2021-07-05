@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth'])->except(['index', 'show']);
+    }
     //홈
     public function home(){
         return view('posts.home');
@@ -54,8 +58,10 @@ class PostController extends Controller
 
     }
     //상세보기 page
-    public function show(){
-        return view('posts.show');
+    public function show(Request $request, $id){
+        $page = $request->page;
+        $post = Post::find($id);  // $id 값의 Post 객체 가져오기
+        return view('posts.show', compact('post', 'page'));  //Post 값도 보내주기
     }
     //리스트보기 page
     public function index(){
@@ -64,7 +70,6 @@ class PostController extends Controller
         // $posts = Post::latest()->get();  //이런 방법으로 도 가능
 
         $posts = Post::latest()->paginate(5);
-
         // return $posts;
         // sdd($posts[0]->created_at);
          return view('posts.index', ['posts'=>$posts]);  //posts에 있는 데이터를 index view에 넘겨준다
