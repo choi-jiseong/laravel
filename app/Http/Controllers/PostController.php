@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -45,31 +46,75 @@ class PostController extends Controller
         //file 처리
         //내가 원하는 파일시스템 상의 위치에 원하는 이름으로 파일을 저장하고 그파일 이름을 컬럼에 설정
         if($request->file('imageFile')){
-            $name = $request->file('imageFile')->getClientOriginalName(); //원래 이름 가져올 수 있따.
-            $extension = $request->file('imageFile')->extension(); //원래 파일의 확장자를 가져올 수 있다.
-            $nameWithoutExtension = Str::of($name)->basename('.'.$extension); //basename 안에 짤라준다
-            // dd($nameWithoutExtension);
-            $fileName = $nameWithoutExtension.'_'.time().'.'.$extension; //base이름 + 현재 시간 + 확장자
-            // dd($fileName);
-            $request->file('imageFile')->storeAs('public/images', $fileName); //storeAs 앞 폴더에 뒤에 파일을 저장해준다
+            // $name = $request->file('imageFile')->getClientOriginalName(); //원래 이름 가져올 수 있따.
+            // $extension = $request->file('imageFile')->extension(); //원래 파일의 확장자를 가져올 수 있다.
+            // $nameWithoutExtension = Str::of($name)->basename('.'.$extension); //basename 안에 짤라준다
+            // // dd($nameWithoutExtension);
+            // $fileName = $nameWithoutExtension.'_'.time().'.'.$extension; //base이름 + 현재 시간 + 확장자
+            // // dd($fileName);
+            // $request->file('imageFile')->storeAs('public/images', $fileName); //storeAs 앞 폴더에 뒤에 파일을 저장해준다
     
-            $post->image = $fileName;            
+            // $post->image = $fileName;            
+            $post->image = $this->uploadPostImage($request);
         }
         
         $post->save();
         //결과 뷰를 반환
         return redirect('/posts/index');
     }
-    //수정폼
-    public function edit(){
 
+    protected function uploadPostImage($request){
+        $request->file('imageFile');
+            $name = $request->file('imageFile')->getClientOriginalName();
+            $extension = $request->file('imageFile')->extension();
+            $nameWithoutExtension = Str::of($name)->basename('.'.$extension);
+            $fileName = $nameWithoutExtension.'_'.time().'.'.$extension;
+            $request->file('imageFile')->storeAs('public/images', $fileName);
+
+            return $fileName;
+    }
+
+    //수정폼
+    public function edit(Post $post){  //아이디를 받고 post객체를 달라고하면 id에 맞는 post객체를 찾아준다
+
+        // $post = Post::find($id);
+        // $post = Post::where('id', $id)->get()->first();
+        // dd($post);
+
+        return view('posts.edit')->with('post', $post);
     }
     //db에 수정
-    public function update(){
-        
+    public function update(Request $request, $id){
+        //기존에 있던 파일 시스템의 이미지 삭제, 원래 이미지 추가
+
+        $request->validate([
+            'title' => 'required|min:3',
+            'content' => 'required',
+            'imageFile' => 'image|max:2000'
+        ]); 
+
+        $post = Post::find($id);  //findOrFail() 오류 나면 404 페이지
+        // dd($post);
+
+        if($request->file('imageFile')){
+            $imagePath = 'public/images/'.$post->image;
+            Storage::delete($imagePath);
+            // $request->file('imageFile');
+            // $name = $request->file('imageFile')->getClientOriginalName();
+            // $extension = $request->file('imageFile')->extension();
+            // $nameWithoutExtension = Str::of($name)->basename('.'.$extension);
+            // $fileName = $nameWithoutExtension.'_'.time().'.'.$extension;
+            $post->image = $this->uploadPostImage($request);
+        }
+        $post->title = $request->title;
+        $post->content = $request->content;
+        $post->save();
+
+        return redirect()->route('posts.show', ['id'=>$id]);
     }
     //db에서 삭제
-    public function destroy(){
+    public function destroy($id){
+        //db에서 삭제하기 전에 파일 시스템에서 이미지 파일 삭제
 
     }
     //상세보기 page

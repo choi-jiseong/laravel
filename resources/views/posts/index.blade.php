@@ -8,11 +8,13 @@
 </head>
 <body>
     <div class="container mt-5 mb-5">
-        <a href="{{ route('dashboard') }}">Dashboard</a>
         <h1>게시글 리스트</h1>
+        <div>
+        <a href="{{ route('dashboard') }}" class="btn btn-dark">Dashboard</a>
         @auth 
-            <a href="/posts/create" class="btn btn-primary">게시글 작성</a>
-        @endauth
+            <a href="/posts/create" class="btn btn-dark">게시글 작성</a>
+          @endauth
+        </div>
         <ul class="list-group mt-3">
             @foreach($posts as $post)
             <li class="list-group-item">
@@ -31,6 +33,7 @@
           <div class="mt-5">
               {{ $posts->links() }}
           </div>
+          
     </div>
     
 </body>

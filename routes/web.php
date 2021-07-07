@@ -34,6 +34,8 @@ Route::get('/posts/index', [PostController::class, 'index'])->name('posts.index'
 
 Route::get('/posts/show/{id}', [PostController::class, 'show'])->name('posts.show');
 
-Route::get('/posts/edit', [PostController::class, 'edit'])->name('posts.edit');
+Route::get('/posts/{post}', [PostController::class, 'edit'])->name('posts.edit');
 
-Route::post('/posts/update', [PostController::class, 'update'])/*->middleware(['auth'])*/->name('posts.update');
+Route::put('/posts/{id}', [PostController::class, 'update'])/*->middleware(['auth'])*/->name('posts.update');
+
+Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.delete');

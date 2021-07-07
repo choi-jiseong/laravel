@@ -32,7 +32,7 @@
                     <div>{{ $message }}</div>
                 @enderror
               </div><br>
-            <button type="submit" class="btn btn-primary">작성하기</button>
+            <button type="submit" class="btn btn-dark">작성하기</button>
         </form>
     </div>
     

@@ -14,7 +14,7 @@
 </head>
 <body>
     <div class="container mt-5">
-        
+      <button class="btn btn-dark" onclick=location.href="{{ route('posts.index', ['page'=>$page]) }}">목록보기</button>
             <div class="form-group">
               <label>Title</label>
               <input type="text" readonly name="title" class="form-control" id="title" value="{{ $post->title }}">
@@ -47,9 +47,10 @@
               <label>작성자</label>
               <input type="text" readonly class="form-control"value="{{ $post->user_id }}">
             </div>
-            <div class="mt-3">
-                <a href="{{ route('posts.index', ['page'=>$page]) }}" class="btn btn-primary">목록보기</a>
-                <a href="{{ route('posts.edit') }}" class="btn btn-primary">수정하기</a>
+            <div class="flex mt-3">
+                
+                <button class="btn btn-dark" onclick=location.href="{{ route('posts.edit', ['post'=>$post->id]) }}">수정</button>
+                <button class="btn btn-dark" onclick=location.href="{{ route('posts.delete', ['id'=>$post->id]) }}">삭제</button>
             </div>
     </div>
 </body>
