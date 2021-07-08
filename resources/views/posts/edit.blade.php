@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container mt-5">
-        <form action="{{ route('posts.update', ['id'=>$post->id]) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('posts.update', ['id'=>$post->id, 'page'=>$page]) }}" method="post" enctype="multipart/form-data">
           @csrf
           @method("put") {{-- 밑에 내용을 만들어준다 --}}
           {{-- method spoofing --}}

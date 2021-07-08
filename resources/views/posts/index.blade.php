@@ -10,9 +10,9 @@
     <div class="container mt-5 mb-5">
         <h1>게시글 리스트</h1>
         <div>
-        <a href="{{ route('dashboard') }}" class="btn btn-dark">Dashboard</a>
+        <a href="{{ route('dashboard') }}" class="btn btn-primary">Dashboard</a>
         @auth 
-            <a href="/posts/create" class="btn btn-dark">게시글 작성</a>
+            <a href="/posts/create" class="btn btn-primary">게시글 작성</a>
           @endauth
         </div>
         <ul class="list-group mt-3">

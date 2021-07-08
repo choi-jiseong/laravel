@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -75,13 +76,16 @@ class PostController extends Controller
     }
 
     //수정폼
-    public function edit(Post $post){  //아이디를 받고 post객체를 달라고하면 id에 맞는 post객체를 찾아준다
+    public function edit(Request $request, Post $post){  //아이디를 받고 post객체를 달라고하면 id에 맞는 post객체를 찾아준다
 
         // $post = Post::find($id);
         // $post = Post::where('id', $id)->get()->first();
         // dd($post);
+        if(auth()->user()->id != $post->user_id){
+            abort(403);
+        }
 
-        return view('posts.edit')->with('post', $post);
+        return view('posts.edit')->with(['post'=>$post, 'page'=>$request->page]);
     }
     //db에 수정
     public function update(Request $request, $id){
@@ -95,6 +99,14 @@ class PostController extends Controller
 
         $post = Post::find($id);  //findOrFail() 오류 나면 404 페이지
         // dd($post);
+        
+        //Authorization. 즉 수정 권한이 있는지 검사 즉, 로그인한 사용자와 게시글의 작성자가 같은지 체크
+        // if(auth()->user()->id != $post->user_id){
+        //     abort(403); //권한이 없다
+        // }
+        if($request->user()->cannot('update', $post)){
+            abort(403);
+        }
 
         if($request->file('imageFile')){
             $imagePath = 'public/images/'.$post->image;
@@ -110,18 +122,36 @@ class PostController extends Controller
         $post->content = $request->content;
         $post->save();
 
-        return redirect()->route('posts.show', ['id'=>$id]);
+        return redirect()->route('posts.show', ['id'=>$id, 'page'=>$request->page]);
     }
     //db에서 삭제
-    public function destroy($id){
+    public function destroy(Request $request, $id){
         //db에서 삭제하기 전에 파일 시스템에서 이미지 파일 삭제
+        $post= Post::findOrFail($id);
 
+        //Authorization. 즉 수정 권한이 있는지 검사 즉, 로그인한 사용자와 게시글의 작성자가 같은지 체크
+        // if(auth()->user()->id != $post->user_id){
+        //     abort(403); //권한이 없다
+        // }
+        if($request->user()->cannot('delete', $post)){
+            abort(403);
+        }
+
+        $page= $request->page;
+        if($post->image){
+            $imagePath = 'public/images/'.$post->image;
+            Storage::delete($imagePath);
+        }
+        $post->delete();
+
+        return redirect()->route('posts.index', ['page'=>$page]);
     }
     //상세보기 page
     public function show(Request $request, $id){
         $page = $request->page;
         $post = Post::find($id);  // $id 값의 Post 객체 가져오기
-        return view('posts.show', compact('post', 'page'));  //Post 값도 보내주기
+        $user_name = User::find($post->user_id)->name;
+        return view('posts.show', compact('post', 'page', 'user_name'));  //Post 값도 보내주기
     }
     //리스트보기 page
     public function index(){

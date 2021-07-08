@@ -14,7 +14,7 @@
 </head>
 <body>
     <div class="container mt-5">
-      <button class="btn btn-dark" onclick=location.href="{{ route('posts.index', ['page'=>$page]) }}">목록보기</button>
+      <button class="btn btn-primary" onclick=location.href="{{ route('posts.index', ['page'=>$page]) }}">목록보기</button>
             <div class="form-group">
               <label>Title</label>
               <input type="text" readonly name="title" class="form-control" id="title" value="{{ $post->title }}">
@@ -45,13 +45,30 @@
 
             <div class="form-group">
               <label>작성자</label>
-              <input type="text" readonly class="form-control"value="{{ $post->user_id }}">
+              <input type="text" readonly class="form-control"value="{{ $user_name }}">
             </div>
-            <div class="flex mt-3">
-                
-                <button class="btn btn-dark" onclick=location.href="{{ route('posts.edit', ['post'=>$post->id]) }}">수정</button>
-                <button class="btn btn-dark" onclick=location.href="{{ route('posts.delete', ['id'=>$post->id]) }}">삭제</button>
-            </div>
+            @auth   {{-- 로그인을 안했을 때 삭제, 수정 불가능 --}}
+              {{-- @if($post->user_id == auth()->user()->id) --}}
+              @can('update', $post)
+                <div class="flex mt-3">
+                  <table>
+                    <tr>
+                      <td>
+                        <button class="btn btn-warning" onclick=location.href="{{ route('posts.edit', ['post'=>$post->id, 'page'=>$page]) }}">수정</button>
+                      </td>
+                      <td>
+                        <form action="{{ route('posts.delete', ['id'=>$post->id, 'page'=>$page]) }}" method="post">
+                          @csrf
+                          @method("delete")
+                          <button type="submit" class="btn btn-danger">삭제</button>
+                        </form>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              {{-- @endif --}}
+              @endcan
+            @endauth
     </div>
 </body>
 </html>
