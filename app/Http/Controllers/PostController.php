@@ -20,8 +20,10 @@ class PostController extends Controller
         return view('posts.home');
     }
     //등록폼
-    public function create(){
-        return view('posts.create');
+    public function create(Request $request){
+
+        $in = $request->in;
+        return view('posts.create', ['in'=>$in]);
     }
     //db에 등록
     public function store(Request $request){
@@ -60,8 +62,14 @@ class PostController extends Controller
         }
         
         $post->save();
+        $in = $request->in;
         //결과 뷰를 반환
-        return redirect('/posts/index');
+        if($in == 1){
+            return redirect()->route('posts.index');
+        }else{
+            return redirect()->route('posts.myIndex');
+        }
+
     }
 
     protected function uploadPostImage($request){
@@ -84,8 +92,9 @@ class PostController extends Controller
         if(auth()->user()->id != $post->user_id){
             abort(403);
         }
+        $in = $request->in;
 
-        return view('posts.edit')->with(['post'=>$post, 'page'=>$request->page]);
+        return view('posts.edit')->with(['post'=>$post, 'page'=>$request->page, 'in'=>$in]);
     }
     //db에 수정
     public function update(Request $request, $id){
@@ -121,13 +130,15 @@ class PostController extends Controller
         $post->title = $request->title;
         $post->content = $request->content;
         $post->save();
+        $in = $request->in;
 
-        return redirect()->route('posts.show', ['id'=>$id, 'page'=>$request->page]);
+        return redirect()->route('posts.show', ['id'=>$id, 'page'=>$request->page, 'in'=>$in]);
     }
     //db에서 삭제
     public function destroy(Request $request, $id){
         //db에서 삭제하기 전에 파일 시스템에서 이미지 파일 삭제
         $post= Post::findOrFail($id);
+        $in = $request->in;
 
         //Authorization. 즉 수정 권한이 있는지 검사 즉, 로그인한 사용자와 게시글의 작성자가 같은지 체크
         // if(auth()->user()->id != $post->user_id){
@@ -143,25 +154,44 @@ class PostController extends Controller
             Storage::delete($imagePath);
         }
         $post->delete();
+        if($in == 1){
+            return redirect()->route('posts.index', ['page'=>$page]);
+        }else{
+            return redirect()->route('posts.myIndex', ['page'=>$page]);
+        }
 
-        return redirect()->route('posts.index', ['page'=>$page]);
+
     }
     //상세보기 page
     public function show(Request $request, $id){
         $page = $request->page;
         $post = Post::find($id);  // $id 값의 Post 객체 가져오기
-        $user_name = User::find($post->user_id)->name;
-        return view('posts.show', compact('post', 'page', 'user_name'));  //Post 값도 보내주기
+        // $user_name = User::find($post->user_id)->name;
+        $in = $request->in;
+        return view('posts.show', compact('post', 'page', 'in'));  //Post 값도 보내주기
     }
     //리스트보기 page
     public function index(){
         // $post = Post::all();
         // $posts = Post::orderBy('created_at', 'desc')->get(); // 만든 시간에따라 최신순으로
         // $posts = Post::latest()->get();  //이런 방법으로 도 가능
-
         $posts = Post::latest()->paginate(5);
+        // $users = User::all();
         // return $posts;
         // sdd($posts[0]->created_at);
-         return view('posts.index', ['posts'=>$posts]);  //posts에 있는 데이터를 index view에 넘겨준다
+        // dd($posts);
+        $in = 1;
+         return view('posts.index', ['posts'=>$posts, 'in'=>$in]);  //posts에 있는 데이터를 index view에 넘겨준다
+    }
+
+    public function myIndex() {
+        // $user = User::find(auth()->user()->id);
+        // dd($user);
+        $posts = Post::latest()->where('user_id', auth()->user()->id)->paginate(5);
+        // $posts = auth()->user()->posts()->latest()->paginate(5);
+        // $posts = auth()->user()->posts()->orderBy('title', 'asc')->orderBy('created_at', 'desc')->get();
+        // dd($posts);
+        $in = 2;
+        return view('posts.myIndex', ['posts'=>$posts, 'in'=>$in]);
     }
 }

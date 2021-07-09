@@ -5,10 +5,11 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-</head>
+    <script src="https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js"></script>
+  </head>
 <body>
     <div class="container mt-5">
-        <form action="/posts/store" method="post" enctype="multipart/form-data">
+        <form action="{{ route('posts.store', ['in'=>$in]) }}" method="post" enctype="multipart/form-data">
           @csrf
             <div class="form-group">
               <label for="title">Title</label>
@@ -35,6 +36,17 @@
             <button type="submit" class="btn btn-dark">작성하기</button>
         </form>
     </div>
+
+    <script>
+      ClassicEditor
+              .create( document.querySelector( '#content' ) )
+              .then( editor => {
+                      console.log( editor );
+              } )
+              .catch( error => {
+                      console.error( error );
+              } );
+    </script>
     
 </body>
 </html>

@@ -25,7 +25,7 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/posts/create', [PostController::class, 'create'])/*->middleware(['auth'])*/; //로그인하면 원래 요청했던 곳으로 간다
+Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');/*->middleware(['auth'])*/; //로그인하면 원래 요청했던 곳으로 간다
 //Route::get('/create', 'PostController@create');
 
 Route::post('/posts/store', [PostController::class, 'store'])/*->middleware(['auth'])*/->name('posts.store');
@@ -33,6 +33,8 @@ Route::post('/posts/store', [PostController::class, 'store'])/*->middleware(['au
 Route::get('/posts/index', [PostController::class, 'index'])->name('posts.index');
 
 Route::get('/posts/show/{id}', [PostController::class, 'show'])->name('posts.show');
+
+Route::get('/posts/myIndex', [PostController::class, 'myIndex'])->name('posts.myIndex');
 
 Route::get('/posts/{post}', [PostController::class, 'edit'])->name('posts.edit');
 

@@ -12,7 +12,7 @@
         <div>
         <a href="{{ route('dashboard') }}" class="btn btn-primary">Dashboard</a>
         @auth 
-            <a href="{{ route('posts.create', ['in'=>$in]) }}" class="btn btn-primary">게시글 작성</a>
+            <a href="/posts/create" class="btn btn-primary">게시글 작성</a>
           @endauth
         </div>
         <ul class="list-group mt-3">
