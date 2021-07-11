@@ -22,4 +22,5 @@ class Post extends Model
     public function user() {
         return $this->belongsTo(User::class);  //post 객체를 생성하면 user정보를 넘겨주는 메서드
     }
+
 }

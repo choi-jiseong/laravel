@@ -27,7 +27,8 @@
                     Content : {{ $post->content }}
                 </div> --}}
                 <span>작성자 : {{ $post->user->name }}</span><br>
-                <span>written on {{ $post->created_at->diffForHumans() }}</span>
+                <span>written on {{ $post->created_at->diffForHumans() }}</span><br>
+                <span>{{ $post->count }} {{ $post->count > 0 ? Str::plural('view', $post->count) : 'view' }}</span>
             </li>
             @endforeach
           </ul>

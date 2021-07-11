@@ -20,14 +20,16 @@
             <li class="list-group-item">
                 <span>
                     <a href="{{ route('posts.show', ['id'=>$post->id, 'page'=>$posts->currentPage(), 'in'=>$in]) }}"> 
-                    Title : {{ $post->title}}
+                    Title : {{ $post->title }}
                 </a>
                 </span><br>
                 {{-- <div>
                     Content : {{ $post->content }}
                 </div> --}}
                 <span>작성자 : {{ $post->user->name }}</span><br>
-                <span>written on {{ $post->created_at->diffForHumans() }}</span>
+                <span>written on {{ $post->created_at->diffForHumans() }}</span><br>
+                {{-- <span>조회수 : {{ $post->count }}</span> --}}
+                <span>{{ $post->count }} {{ $post->count > 0 ? Str::plural('view', $post->count) : 'view' }}</span>
             </li>
             @endforeach
           </ul>

@@ -168,6 +168,8 @@ class PostController extends Controller
         $post = Post::find($id);  // $id 값의 Post 객체 가져오기
         // $user_name = User::find($post->user_id)->name;
         $in = $request->in;
+        $post->count++; //조회수 증가시킴
+        $post->save();  //db에 반영
         return view('posts.show', compact('post', 'page', 'in'));  //Post 값도 보내주기
     }
     //리스트보기 page
