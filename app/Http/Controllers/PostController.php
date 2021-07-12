@@ -168,8 +168,17 @@ class PostController extends Controller
         $post = Post::find($id);  // $id 값의 Post 객체 가져오기
         // $user_name = User::find($post->user_id)->name;
         $in = $request->in;
-        $post->count++; //조회수 증가시킴
-        $post->save();  //db에 반영
+        // $post->count++; //조회수 증가시킴
+        // $post->save();  //db에 반영
+
+        /*
+            이 글을 조회한 사용자들 중에, 현재 로그인한 사용자가 포함되어 있는지를 체크하고 포함되어 있지 않으면 추가. 
+            포함되어 있으면 다음 단계로 넘어감.
+        */
+        if(Auth::user() != null && !$post->viewers->contains(Auth::user())){
+            $post->viewers()->attach(Auth::user()->id);  //이렇게 하면 pivot테이블에 들어간다
+        }
+
         return view('posts.show', compact('post', 'page', 'in'));  //Post 값도 보내주기
     }
     //리스트보기 page

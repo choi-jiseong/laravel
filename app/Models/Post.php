@@ -23,4 +23,9 @@ class Post extends Model
         return $this->belongsTo(User::class);  //post 객체를 생성하면 user정보를 넘겨주는 메서드
     }
 
+    public function viewers() {
+        // return $this->belongsToMany(User::class); //관례에 따라 밑에 코드처럼 적어주지 않아도 인지한다
+        return $this->belongsToMany(User::class, 'post_user', 'post_id', 'user_id', 'id', 'id', 'users');
+    }
+
 }

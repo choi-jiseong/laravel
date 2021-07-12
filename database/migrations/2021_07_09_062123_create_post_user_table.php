@@ -18,6 +18,7 @@ class CreatePostUserTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('post_id')->constrained()->onDelete('cascade');
             $table->timestamp('created_at')->useCurrent();
+            // $table->timestamp('created_at')->default(new Expression('now()'));
             $table->unique(['user_id', 'post_id']);
         });
     }

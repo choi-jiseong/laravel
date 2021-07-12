@@ -15,11 +15,11 @@
 <body>
     <div class="container mt-5">
       
-      @if ($in == 1)
-        <button class="btn btn-primary" onclick=location.href="{{ route('posts.index', ['page'=>$page]) }}">목록보기</button>
-      @else
-        <button class="btn btn-primary" onclick=location.href="{{ route('posts.myIndex', ['page'=>$page]) }}">목록보기</button>
-      @endif
+      {{-- @if ($in == 1) --}}
+        <button class="btn btn-primary" onclick=location.href="{{ $in == 1 ? route('posts.index', ['page'=>$page]) : route('posts.myIndex', ['page'=>$page])}}">목록보기</button>
+      {{-- @else --}}
+        {{-- <button class="btn btn-primary" onclick=location.href="{{ route('posts.myIndex', ['page'=>$page]) }}">목록보기</button> --}}
+      {{-- @endif --}}
             <div class="form-group">
               <label>Title</label>
               <input type="text" readonly name="title" class="form-control" id="title" value="{{ $post->title }}">
