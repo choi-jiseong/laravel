@@ -9,6 +9,8 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\GithubAuthController;
+use App\Http\Controllers\GoogleAuthController;
+use App\Http\Controllers\KakaoAuthController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -68,3 +70,11 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 Route::get('/github/login', [GithubAuthController::class, 'redirect'])->name('github.login');
 
 Route::get('/github/callback', [GithubAuthController::class, 'callback'])->name('github.callback');
+
+Route::get('/google/redirect', [GoogleAuthController::class, 'redirect'])->name('google.login');
+                
+Route::get('/google/callback', [GoogleAuthController::class, 'callback'])->name('google.callback');
+
+Route::get('/kakao/redirect', [KakaoAuthController::class, 'redirect'])->name('kakao.login');
+                
+Route::get('/kakao/callback', [KakaoAuthController::class, 'callback'])->name('kakao.callback');

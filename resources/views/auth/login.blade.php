@@ -58,11 +58,11 @@
             </button>
 
             <button class="bg-transparent ml-2 hover:bg-blue-500 text-blue-700 font-semibold py-2 px-4 border border-blue-500 hover:border-transparent hover:text-white rounded">
-                <a href="">Google Login</a>
+                <a href="{{ route('google.login') }}">Google Login</a>
             </button>
 
             <button class="bg-transparent ml-2 hover:bg-blue-500 text-blue-700 font-semibold py-2 px-4 border border-blue-500 hover:border-transparent hover:text-white rounded">
-                <a href="">Kakao Login</a>
+                <a href="{{ route('kakao.login') }}">Kakao Login</a>
             </button>
         </div>
 
