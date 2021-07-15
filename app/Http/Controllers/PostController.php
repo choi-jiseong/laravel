@@ -186,7 +186,7 @@ class PostController extends Controller
         // $post = Post::all();
         // $posts = Post::orderBy('created_at', 'desc')->get(); // 만든 시간에따라 최신순으로
         // $posts = Post::latest()->get();  //이런 방법으로 도 가능
-        $posts = Post::latest()->paginate(5);
+        $posts = Post::latest()->paginate(4);
         // $users = User::all();
         // return $posts;
         // sdd($posts[0]->created_at);

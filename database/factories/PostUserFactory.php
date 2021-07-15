@@ -32,11 +32,16 @@ class PostUserFactory extends Factory
      * @return array
      */
     public function definition()
-    {
+    {   
+        do{
+            $userId =  $this->users->random()->id;
+            $postId = $this->posts->random()->id;
+            $postUser = PostUser::where('user_id', $userId)->where('post_id', $postId)->get();
+        }while($postUser->count()!=0);
+        
         return [
-            'user_id' => $this->users->random()->id,
-            'post_id' => $this->posts->random()->id,
-            
+            'user_id' => $userId,
+            'post_id' => $postId, 
         ];
     }
 }

@@ -10,4 +10,9 @@ class PostUser extends Model
     use HasFactory;
 
     protected $table='post_user';
+    public $timestamps = false;
+
+    public function post() {
+        return $this->belongsTo(Post::class);
+    }
 }
