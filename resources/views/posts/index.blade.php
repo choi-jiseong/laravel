@@ -6,11 +6,11 @@
     </x-slot>
 
     <div class="flex flex-col items-center justify-center min-h-screen bg-center bg-cover" >
-        <h1>게시글 리스트</h1>
-        <div>
-        <a href="{{ route('dashboard') }}" class="btn btn-primary">Dashboard</a>
+
+        <div class="m-10">
+        {{-- <a href="{{ route('dashboard') }}" class="bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-3xl p-4 m-4">Dashboard</a> --}}
         @auth 
-            <a href="{{ route('posts.create', ['in'=>$in]) }}" class="btn btn-primary">게시글 작성</a>
+            <a href="{{ route('posts.create', ['in'=>$in]) }}" class="bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-3xl p-4 m-4">게시글 작성</a>
           @endauth
         </div>
 
