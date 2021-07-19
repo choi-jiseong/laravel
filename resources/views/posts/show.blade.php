@@ -13,6 +13,7 @@
     </style>
 </head>
 <body>
+  <div class="flex justify-between sm:mt-2">
     <div class="container mt-5">
       
       {{-- @if ($in == 1) --}}
@@ -75,5 +76,9 @@
               @endcan
             @endauth
     </div>
+    <div>
+      edsfsadfasdfsdfasdfsdfsdafasdfa
+    </div>
+  </div>
 </body>
 </html>
