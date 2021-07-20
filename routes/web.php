@@ -26,6 +26,9 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
+
+Route::get('/posts/search', [PostController::class, 'search'])->name('posts.search');
+
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');/*->middleware(['auth'])*/; //로그인하면 원래 요청했던 곳으로 간다
 //Route::get('/create', 'PostController@create');
 

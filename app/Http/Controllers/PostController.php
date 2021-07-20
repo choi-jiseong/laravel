@@ -186,7 +186,9 @@ class PostController extends Controller
         // $post = Post::all();
         // $posts = Post::orderBy('created_at', 'desc')->get(); // 만든 시간에따라 최신순으로
         // $posts = Post::latest()->get();  //이런 방법으로 도 가능
-        $posts = Post::latest()->paginate(4);
+        // dd($request);
+            $posts = Post::latest()->paginate(4);
+        
         // $users = User::all();
         // return $posts;
         // sdd($posts[0]->created_at);
@@ -204,5 +206,13 @@ class PostController extends Controller
         // dd($posts);
         $in = 2;
         return view('posts.myIndex', ['posts'=>$posts, 'in'=>$in]);
+    }
+
+    public function search(Request $request){
+        //  dd($request);
+         $posts = Post::latest()->where('title', 'like' , '%'.$request->search.'%' )->paginate(4);
+         $in = $request->in;
+        // dd($posts);
+        return view('posts.search', ['posts'=>$posts, 'in'=>$in]);
     }
 }

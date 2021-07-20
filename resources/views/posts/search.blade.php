@@ -18,7 +18,7 @@
                     <td>
                         <form action="{{ route('posts.search', ['in'=>$in]) }}" method="get">
                             {{-- @csrf --}}
-                            <input type="text" id="search" name="search" placeholder="title" class="rounded-3xl p-4 ml-4">
+                            <input type="text" id="search" name="search" placeholder="title">
                             <button type="submit" class="bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-3xl p-4 m-4">검색</button>
                         </form>
                     </td>

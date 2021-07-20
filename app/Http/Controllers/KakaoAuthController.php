@@ -16,7 +16,7 @@ class KakaoAuthController extends Controller
     }
 
     public function callback() {
-        $user = Socialite::driver('kakao')->user();
+        $user = Socialite::driver('kakao')->stateless()->user();
         //   dd($user);
 
         $user = User::firstOrCreate(

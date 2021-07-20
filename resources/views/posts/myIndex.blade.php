@@ -7,18 +7,27 @@
 
     <div class="flex flex-col items-center justify-center min-h-screen bg-center bg-cover" >
         <div class="m-10">
-        {{-- <a href="{{ route('dashboard') }}" class="bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-3xl p-4 m-4">Dashboard</a> --}}
-        @auth 
-            <a href="{{ route('posts.create', ['in'=>$in]) }}" class="bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-3xl p-4 m-4">게시글 작성</a>
-          @endauth
-          <a href="" class="bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-3xl p-4 m-4">검색</a>
-        </div>
-
-        <!-- dark theme -->
+            <table>
+                <tr>
+                    <td>
+                        @auth 
+                         <a href="{{ route('posts.create', ['in'=>$in]) }}" class="bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-3xl p-4 m-4">게시글 작성</a>
+                        @endauth
+                    </td>
+                    <td>
+                        <form action="{{ route('posts.search', ['in'=>$in]) }}" method="get">
+                            {{-- @csrf --}}
+                            <input type="text" id="search" name="search" placeholder="title" class="rounded-3xl p-4 ml-4">
+                            <button type="submit" class="bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-3xl p-4 m-2">검색</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>    
         @foreach($posts as $post)
         <div class="max-w-3xl w-full mx-auto z-10">
             <div class="flex flex-col">
-                <div class="bg-gray-900 border border-gray-900 shadow-lg  rounded-3xl p-4 m-4">
+                <div class="bg-gray-900 border border-gray-900 shadow-lg  rounded-3xl p-4 m-2">
                     <div class="flex-none sm:flex">
                         <div class=" relative h-32 w-32   sm:mb-0 mb-3">
                             <img src="{{ $post->imagePath() }}" alt="aji" class=" w-32 h-32 object-cover rounded-2xl">
