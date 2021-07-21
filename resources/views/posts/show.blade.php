@@ -69,10 +69,40 @@
             @endauth
     </div>
     <div class="container m-3 bg-white rounded-3xl p-3">
-      <div class="form-group">
-        <label class="text-xl font-bold w-full">댓글</label>
-        <input type="text" class="ml-4 w-4/6 rounded-3xl border-2 border-gray-200">
-        <button class="bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-2xl p-2 m-2">등록</button>
+      <div class="form-group mb-3">
+        <label class="text-xl font-bold w-full ml-8">댓글</label>
+        <form action="{{ route('posts.comment', ['id'=>$post->id, 'page'=>$page, 'in'=>$in]) }}" method="post" enctype="multipart/form-data">
+          @csrf
+          @method('post')
+          <input type="text" name="comment" id="comment" class="ml-6 w-4/6 rounded-3xl border-2 border-gray-200">
+          <button type="submit" class="bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-2xl p-2 m-2">등록</button>
+      </div>
+      <div>
+        @if ($comments != null)
+          @foreach ($comments as $comment)
+          <div class="flex ml-5">
+            <div class="m-auto w-full mb-1">
+              <div class="flex flex-col bg-gray-50 max-w-sm shadow-md py-2 px-10 md:px-8 rounded-md">
+                <div class="flex flex-col gap-6 md:gap-8">
+                  <div class="flex flex-col text-center md:text-left">
+                    <div class="font-medium text-lg font-bold text-gray-800">{{ $comment->user->name }}</div>
+                    <div class="text-gray-500 mb-3 whitespace-nowrap">{{ $comment->comment }}</div>
+                    <div class="flex flex-row gap-4 h-10 text-gray-800 my-auto text-1xl mx-auto md:mx-0">
+                      <div class="text-gray-500">{{ $comment->created_at }}</div>
+                      <button class=" ml-20 z-10 bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-2xl p-1 m-1">삭제</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {{-- <input type="text" class="w-1/6" readonly value="{{ $comment->user->name }}">
+              <input type="text" class="w-3/6" readonly value="{{ $comment->comment }}">
+              <input type="text" class="w-1/6" readonly value="{{ $comment->created_at }}">
+              <button class="">삭제</button> --}}
+            </div>
+          </div>
+          @endforeach
+        @endif
+        
       </div>
     </div>
   </div>

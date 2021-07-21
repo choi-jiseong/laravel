@@ -9,7 +9,7 @@ class ChartController extends Controller
 {
     public function index() {
         $postUsers = PostUser::selectRaw('post_id, count(*) cnt')->groupBy('post_id')->orderByDesc('cnt')->take(6)->get();
-        dd($postUsers);
+        // dd($postUsers);
 
         // return view('chart.index', ['postusers' => $postUsers]);
         return view('chart.index')->with('postusers', $postUsers);

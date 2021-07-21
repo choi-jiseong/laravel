@@ -27,7 +27,11 @@ Route::get('/dashboard', function () {
 require __DIR__.'/auth.php';
 
 
+Route::post('/posts/comment', [PostController::class, 'comment'])->name('posts.comment');
+
 Route::get('/posts/search', [PostController::class, 'search'])->name('posts.search');
+
+Route::get('/chart/index', [ChartController::class, 'index'])->name('chart.index');
 
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');/*->middleware(['auth'])*/; //로그인하면 원래 요청했던 곳으로 간다
 //Route::get('/create', 'PostController@create');
@@ -46,4 +50,6 @@ Route::put('/posts/{id}', [PostController::class, 'update'])/*->middleware(['aut
 
 Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.delete');
 
-Route::get('/chart/index', [ChartController::class, 'index'])->name('chart.index');
+
+
+

@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Chart') }}
+        </h2>
+    </x-slot>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>
-</head>
-<body>
     <canvas id="myChart" width="400"></canvas>
 <script>
 var ctx = document.getElementById('myChart').getContext('2d');
@@ -54,7 +51,4 @@ var myChart = new Chart(ctx, {
     }
 });
 </script>
-
-    
-</body>
-</html>
+</x-app-layout>

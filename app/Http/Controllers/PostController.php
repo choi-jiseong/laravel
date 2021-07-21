@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comments;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -160,7 +162,6 @@ class PostController extends Controller
             return redirect()->route('posts.myIndex', ['page'=>$page]);
         }
 
-
     }
     //상세보기 page
     public function show(Request $request, $id){
@@ -178,8 +179,33 @@ class PostController extends Controller
         if(Auth::user() != null && !$post->viewers->contains(Auth::user())){
             $post->viewers()->attach(Auth::user()->id);  //이렇게 하면 pivot테이블에 들어간다
         }
+        
+        $comments = Comments::latest()->where('post_id', '=', $id)->get();
 
-        return view('posts.show', compact('post', 'page', 'in'));  //Post 값도 보내주기
+        return view('posts.show', compact('post', 'page', 'in', 'comments'));  //Post 값도 보내주기
+    }
+
+    public function comment(Request $request){
+        // dd($request);
+        $page = $request->page;
+        $postId = $request->id;
+        $message = $request->comment;
+        $in = $request->in;
+        $userId = Auth::user()->id;
+        // dd($userId);
+        $request->validate([
+            'comment' => 'required',
+        ]);  //오류는 session에 들어간다, 오류가 되면 자동적으로 redirection 시켜준다(create.blade.php 로)
+
+        $comment = new Comments();
+        $comment->post_id = $postId;
+        $comment->user_id = $userId;
+        $comment->comment = $message;
+        // dd($comment);
+        $comment->save();
+        // dd($comments);
+
+        return redirect()->route('posts.show', ['page'=>$page, 'in'=>$in, 'id'=>$postId]);
     }
     //리스트보기 page
     public function index(){
