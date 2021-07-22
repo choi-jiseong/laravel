@@ -22,7 +22,7 @@ class GithubAuthController extends Controller
     }
 
     public function callback() {
-        $user = Socialite::driver('github')->user();
+        $user = Socialite::driver('github')->stateless()->user();
         // dd($user);
 
         // db에 사용자 정보를 저장한다

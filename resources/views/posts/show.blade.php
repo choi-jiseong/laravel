@@ -76,6 +76,7 @@
           @method('post')
           <input type="text" name="comment" id="comment" class="ml-6 w-4/6 rounded-3xl border-2 border-gray-200">
           <button type="submit" class="bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-2xl p-2 m-2">등록</button>
+        </form>
       </div>
       <div>
         @if ($comments != null)
@@ -89,7 +90,15 @@
                     <div class="text-gray-500 mb-3 whitespace-nowrap">{{ $comment->comment }}</div>
                     <div class="flex flex-row gap-4 h-10 text-gray-800 my-auto text-1xl mx-auto md:mx-0">
                       <div class="text-gray-500">{{ $comment->created_at }}</div>
-                      <button class=" ml-20 z-10 bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-2xl p-1 m-1">삭제</button>
+                      @auth
+                        @can('delete', $comment)
+                        <form action="{{ route('comments.delete', ['id'=>$comment->id, 'page'=>$page, 'in'=>$in]) }}" method="post">
+                          @csrf
+                          @method('delete')
+                          <button type="submit" class=" ml-20 z-10 bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-2xl p-1 m-1">삭제</button>
+                        </form> 
+                        @endcan                                    
+                      @endauth
                     </div>
                   </div>
                 </div>

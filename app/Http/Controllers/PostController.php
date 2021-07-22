@@ -23,8 +23,9 @@ class PostController extends Controller
     }
     //등록폼
     public function create(Request $request){
-
+        
         $in = $request->in;
+        // dd($in);
         return view('posts.create', ['in'=>$in]);
     }
     //db에 등록
@@ -163,6 +164,7 @@ class PostController extends Controller
         }
 
     }
+
     //상세보기 page
     public function show(Request $request, $id){
         $page = $request->page;
@@ -181,32 +183,11 @@ class PostController extends Controller
         }
         
         $comments = Comments::latest()->where('post_id', '=', $id)->get();
-
+        // dd($comments);
         return view('posts.show', compact('post', 'page', 'in', 'comments'));  //Post 값도 보내주기
     }
 
-    public function comment(Request $request){
-        // dd($request);
-        $page = $request->page;
-        $postId = $request->id;
-        $message = $request->comment;
-        $in = $request->in;
-        $userId = Auth::user()->id;
-        // dd($userId);
-        $request->validate([
-            'comment' => 'required',
-        ]);  //오류는 session에 들어간다, 오류가 되면 자동적으로 redirection 시켜준다(create.blade.php 로)
 
-        $comment = new Comments();
-        $comment->post_id = $postId;
-        $comment->user_id = $userId;
-        $comment->comment = $message;
-        // dd($comment);
-        $comment->save();
-        // dd($comments);
-
-        return redirect()->route('posts.show', ['page'=>$page, 'in'=>$in, 'id'=>$postId]);
-    }
     //리스트보기 page
     public function index(){
         // $post = Post::all();
@@ -234,11 +215,10 @@ class PostController extends Controller
         return view('posts.myIndex', ['posts'=>$posts, 'in'=>$in]);
     }
 
-    public function search(Request $request){
-        //  dd($request);
+    public function search(Request $request, $in){
+        //  dd($in);
          $posts = Post::latest()->where('title', 'like' , '%'.$request->search.'%' )->paginate(4);
-         $in = $request->in;
-        // dd($posts);
+        
         return view('posts.search', ['posts'=>$posts, 'in'=>$in]);
     }
 }

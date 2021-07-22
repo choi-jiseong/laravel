@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChartController;
+use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\PostController;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
@@ -27,9 +28,11 @@ Route::get('/dashboard', function () {
 require __DIR__.'/auth.php';
 
 
-Route::post('/posts/comment', [PostController::class, 'comment'])->name('posts.comment');
+Route::post('/posts/comment', [CommentsController::class, 'comment'])->name('posts.comment');
 
-Route::get('/posts/search', [PostController::class, 'search'])->name('posts.search');
+
+
+
 
 Route::get('/chart/index', [ChartController::class, 'index'])->name('chart.index');
 
@@ -39,6 +42,8 @@ Route::get('/posts/create', [PostController::class, 'create'])->name('posts.crea
 Route::post('/posts/store', [PostController::class, 'store'])/*->middleware(['auth'])*/->name('posts.store');
 
 Route::get('/posts/index', [PostController::class, 'index'])->name('posts.index');
+
+Route::get('/posts/search/{in}', [PostController::class, 'search'])->name('posts.search');
 
 Route::get('/posts/show/{id}', [PostController::class, 'show'])->name('posts.show');
 
@@ -50,6 +55,7 @@ Route::put('/posts/{id}', [PostController::class, 'update'])/*->middleware(['aut
 
 Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.delete');
 
+Route::delete('/comments/destroy/{id}', [CommentsController::class, 'destroy'])->name('comments.delete');
 
 
 

@@ -47,13 +47,17 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
+    public function comments(){
+        return $this->hasMany(Comments::class);
+    }
+
     public function viewed_posts(){
         // return $this->belongsToMany(Post::class);
         return $this->belongsToMany(Post::class, 'post_user', 'user_id', 'post_id', 'id', 'id', 'posts');
     }
 
-    public function comments_posts(){
-        // return $this->belongsToMany(Post::class);
-        return $this->belongsToMany(Post::class, 'comments', 'user_id', 'post_id', 'id', 'id', 'posts');
-    }
+    // public function comments_posts(){
+    //     // return $this->belongsToMany(Post::class);
+    //     return $this->belongsToMany(Post::class, 'comments', 'user_id', 'post_id', 'id', 'id', 'posts');
+    // }
 }
