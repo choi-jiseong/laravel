@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comments;
+use App\Models\Likes;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -185,6 +186,21 @@ class PostController extends Controller
         $comments = Comments::latest()->where('post_id', '=', $id)->get();
         // dd($comments);
         return view('posts.show', compact('post', 'page', 'in', 'comments'));  //Post 값도 보내주기
+    }
+
+    public function like(Request $request){
+        // dd($request);
+        $id = $request->id;
+        $post = Post::find($id);
+        $like = Likes::where('post_id', '=', $post->id)->where('user_id', '=', auth()->user()->id)->first();
+        // dd($like->id);
+        if(Auth::user() != null && !$post->likes_viewers->contains(Auth::user())){
+            $post->likes_viewers()->attach(Auth::user()->id);  //이렇게 하면 pivot테이블에 들어간다
+        }else if(Auth::user() != null && $post->likes_viewers->contains(Auth::user())){
+            Likes::find($like->id)->delete();
+        }
+
+        return redirect()->route('posts.show', ['post'=>$post, 'page'=>$request->page, 'in'=>$request->in, 'id'=>$id]);
     }
 
 

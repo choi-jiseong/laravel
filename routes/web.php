@@ -43,6 +43,8 @@ Route::post('/posts/store', [PostController::class, 'store'])/*->middleware(['au
 
 Route::get('/posts/index', [PostController::class, 'index'])->name('posts.index');
 
+Route::get('/posts/like', [PostController::class, 'like'])->name('posts.like');
+
 Route::get('/posts/search/{in}', [PostController::class, 'search'])->name('posts.search');
 
 Route::get('/posts/show/{id}', [PostController::class, 'show'])->name('posts.show');

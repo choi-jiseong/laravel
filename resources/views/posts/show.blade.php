@@ -7,12 +7,7 @@
   <button class="flex justify-between sm:mt-2 mx-auto z-10 bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-3xl p-4 m-4" onclick=location.href="{{ $in == 1 ? route('posts.index', ['page'=>$page]) : route('posts.myIndex', ['page'=>$page])}}">목록보기</button>
   <div class="flex justify-between sm:mt-2 max-w-5xl w-full mx-auto z-10">
     <div class="container m-3 bg-white rounded-3xl p-3">
-      
-      {{-- @if ($in == 1) --}}
-        
-      {{-- @else --}}
-        {{-- <button class="btn btn-primary" onclick=location.href="{{ route('posts.myIndex', ['page'=>$page]) }}">목록보기</button> --}}
-      {{-- @endif --}}
+
             <div class="form-group">
               <label class="text-2xl font-bold">Title</label>
               <div readonly name="title" class="w-full pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none border-gray-200" id="title">{{ $post->title }}</div>
@@ -26,7 +21,6 @@
             <div class="form-group mt-3">
               <label for="image" class="text-2xl font-bold">Post Image</label>
               <div>
-                {{-- <img class="img-thumbnail w-25" src="/storage/images/{{ $post->image ?? 'no_image_available.png'}}"> --}}
                 <img class="w-full" src="{{ $post->imagePath() }}">
               </div>
             </div>
@@ -61,10 +55,12 @@
                           <button type="submit" class="flex justify-between sm:mt-2 mx-auto z-10 bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-2xl p-2 m-2">삭제</button>
                         </form>
                       </td>
+                      <td>
+                        <button onclick=location.href="{{ route('posts.like', ['id'=>$post->id, 'page'=>$page, 'in'=>$in]) }}" class="flex justify-between sm:mt-2 mx-auto z-10 bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-2xl p-2 m-2" >like {{ $post->likes_viewers()->count() }}</button>
+                      </td>
                     </tr>
                   </table>
                 </div>
-              {{-- @endif --}}
               @endcan
             @endauth
     </div>
@@ -97,16 +93,12 @@
                           @method('delete')
                           <button type="submit" class=" ml-20 z-10 bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-2xl p-1 m-1">삭제</button>
                         </form> 
-                        @endcan                                    
+                        @endcan
                       @endauth
                     </div>
                   </div>
                 </div>
               </div>
-              {{-- <input type="text" class="w-1/6" readonly value="{{ $comment->user->name }}">
-              <input type="text" class="w-3/6" readonly value="{{ $comment->comment }}">
-              <input type="text" class="w-1/6" readonly value="{{ $comment->created_at }}">
-              <button class="">삭제</button> --}}
             </div>
           </div>
           @endforeach
