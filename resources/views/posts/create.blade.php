@@ -5,9 +5,9 @@
       </h2>
   </x-slot>
     <div class="container flex justify-between sm:mt-2 max-w-5xl w-full mx-auto z-10 m-3 bg-white rounded-3xl p-3">
-        <form action="{{ route('posts.store', ['in'=>$in]) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('posts.store', ['in'=>$in]) }}" method="post" enctype="multipart/form-data" class="mx-auto my-auto">
           @csrf
-            <div class="form-group">
+            <div class="form-group mb-2">
               <label for="title" class="text-2xl font-bold">Title</label>
               <input type="text" name="title" class="w-full rounded-3xl border-2 border-gray-200" id="title" value="{{ old('title') }}">
                 @error('title')
@@ -15,7 +15,7 @@
                 @enderror
               
             </div>
-            <div class="form-group">
+            <div class="form-group mb-2">
               <label for="content" class="text-2xl font-bold">Content</label>
               <textarea  name="content" id="content">{{ old('content') }}</textarea>
                 @error('content')
@@ -29,7 +29,10 @@
                     <div>{{ $message }}</div>
                 @enderror
               </div><br>
-            <button type="submit" class="btn btn-dark">작성하기</button>
+              <div class="flex justify-between">
+                <button type="submit" class="sm:mt-2 z-10 bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-3xl p-4">작성하기</button>
+                <button class="sm:mt-2 z-10 bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-3xl p-4" onclick=location.href="{{ $in == 1 ? route('posts.index', ['page'=>$page]) : route('posts.myIndex', ['page'=>$page])}}">목록보기</button>
+              </div>
         </form>
     </div>
 

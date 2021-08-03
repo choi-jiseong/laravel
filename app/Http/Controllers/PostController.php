@@ -26,8 +26,9 @@ class PostController extends Controller
     public function create(Request $request){
         
         $in = $request->in;
+        $page = $request->page;
         // dd($in);
-        return view('posts.create', ['in'=>$in]);
+        return view('posts.create', ['in'=>$in, 'page'=>$page]);
     }
     //db에 등록
     public function store(Request $request){
