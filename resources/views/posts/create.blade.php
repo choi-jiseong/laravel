@@ -24,16 +24,16 @@
             </div>
             <div class="form-group">
                 <label for="file" class="text-2xl font-bold">File</label><br>
-                <input class="form-control" type="file" id="file" name="imageFile">
+                <input class="border-gray-300 focus:ring-blue-500 block w-full overflow-hidden cursor-pointer border text-gray-800 bg-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:border-transparent" aria-describedby="view_model_avatar_help" type="file" id="file" name="imageFile">
                 @error('imageFile')
                     <div>{{ $message }}</div>
                 @enderror
               </div><br>
-              <div class="flex justify-between">
                 <button type="submit" class="sm:mt-2 z-10 bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-3xl p-4">작성하기</button>
-                <button class="sm:mt-2 z-10 bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-3xl p-4" onclick=location.href="{{ $in == 1 ? route('posts.index', ['page'=>$page]) : route('posts.myIndex', ['page'=>$page])}}">목록보기</button>
-              </div>
         </form>
+              {{-- <div>
+                <button class="sm:mt-2 z-10 bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-3xl p-4" onclick=location.href="{{ $in == 1 ? route('posts.index', ['page'=>$page]) : route('posts.myIndex', ['page'=>$page])}}">목록보기</button>
+              </div> --}}
     </div>
 
     <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
