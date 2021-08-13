@@ -71,25 +71,28 @@ class CommentsController extends Controller
     public function input(Request $request){
         $comment = $request->comment;
         $post_id = $request->post_id;
-        echo"<script>console.log('PHP_Console:".$comment.'hi'."');</script>";
-        echo"<script>console.log('PHP_Console:".$post_id.'hi'."');</script>";
+        // echo"<script>console.log('PHP_Console:".$request.'hi'."');</script>";
+        // echo"<script>console.log('PHP_Console:".$post_id.'hi'."');</script>";
 
         if($comment != null){  //user 아니면 x되게 구현해야됨
             DB::table('comments')->insert(
-                ['user_id' => $request->user_id, 'post_id' => $request->post_id, 'comment' => $comment]
+                ['user_id' => $request->user_id, 'name' => $request->user_name, 'post_id' => $request->post_id, 'comment' => $comment]
             );
         }
         $comments = Comments::latest()->where('post_id', '=', $post_id)->get();
-        echo"<script>console.log('PHP_Console:".$comments.'hi'."');</script>";
+        // echo"<script>console.log('PHP_Console:".$comments.'hi'."');</script>";
         return response()->json($comments, 200);
     }
 
     public function delete(Request $request){
         $id = $request->id;
         $post_id = $request->post_id;
+        $user_id = $request->user_id;
         $comment = Comments::find($id);
-
-        $comment->delete();
+        // echo"<script>console.log('PHP_Console:".Auth::user()->id.'hi'."');</script>";
+        if($comment->user_id == $user_id){
+            $comment->delete();
+        }
 
         $comments = Comments::latest()->where('post_id', '=', $post_id)->get();
         return response()->json($comments, 200);

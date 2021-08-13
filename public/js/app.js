@@ -1873,9 +1873,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     user_id: String,
+    user_name: String,
     post_id: String
   },
   data: function data() {
@@ -1891,18 +1894,18 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/api/comments/input', {
         comment: this.comment,
         post_id: this.post_id,
-        user_id: this.user_id
+        user_id: this.user_id,
+        user_name: this.user_name
       }).then(function (response) {
         _this.comments = response.data;
         console.log(response.data);
-        console.log(_this.comments);
+        _this.comment = '';
       });
-      this.comment = '';
     },
     destroy: function destroy(id) {
       var _this2 = this;
 
-      axios["delete"]('/api/comments/delete?id=' + id + '&post_id=' + this.post_id).then(function (response) {
+      axios["delete"]('/api/comments/delete?id=' + id + '&post_id=' + this.post_id + '&user_id=' + this.user_id).then(function (response) {
         _this2.comments = response.data;
         console.log(response.data);
       });
@@ -37492,7 +37495,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container m-3 bg-white rounded-3xl p-3" },
     [
       _c("div", { staticClass: "form-group mb-3" }, [
         _c("label", { staticClass: "text-xl font-bold w-full ml-8" }, [
@@ -37534,62 +37536,71 @@ var render = function() {
       ]),
       _vm._v(" "),
       _vm._l(_vm.comments, function(c) {
-        return _c("div", { key: c.id }, [
-          _c("div", { staticClass: "flex ml-5" }, [
-            _c("div", { staticClass: "m-auto w-full mb-1" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "flex flex-col bg-gray-50 max-w-sm shadow-md py-2 px-10 md:px-8 rounded-md"
-                },
-                [
-                  _c("div", { staticClass: "flex flex-col gap-6 md:gap-8" }, [
-                    _c(
-                      "div",
-                      { staticClass: "flex flex-col text-center md:text-left" },
-                      [
-                        _c(
-                          "div",
-                          {
-                            staticClass: "text-gray-500 mb-3 whitespace-nowrap"
-                          },
-                          [_vm._v(_vm._s(c.comment))]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "flex flex-row gap-4 h-10 text-gray-800 my-auto text-1xl mx-auto md:mx-0"
-                          },
-                          [
-                            _c("div", { staticClass: "text-gray-500" }, [
-                              _vm._v(_vm._s(c.created_at))
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass:
-                                  " ml-20 z-10 bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-2xl p-1 m-1",
-                                attrs: { type: "submit" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.destroy(c.id)
-                                  }
-                                }
-                              },
-                              [_vm._v("삭제")]
-                            )
-                          ]
-                        )
-                      ]
-                    )
-                  ])
-                ]
-              )
-            ])
+        return _c("div", { key: c.id, staticClass: "flex ml-3 mb-2" }, [
+          _c("div", { staticClass: "m-auto w-full mb-1" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "flex flex-col bg-gray-50 max-w-sm shadow-md py-2 px-10 md:px-8 rounded-md"
+              },
+              [
+                _c("div", { staticClass: "flex flex-col gap-6 md:gap-8" }, [
+                  _c(
+                    "div",
+                    { staticClass: "flex flex-col text-center md:text-left" },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "font-medium text-lg font-bold text-gray-800"
+                        },
+                        [_vm._v(_vm._s(c.name))]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "text-gray-500 mb-3 whitespace-nowrap" },
+                        [_vm._v(_vm._s(c.comment))]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "flex flex-row gap-4 h-10 text-gray-800 my-auto text-1xl mx-auto md:mx-0"
+                        },
+                        [
+                          _c("div", { staticClass: "text-gray-500" }, [
+                            _vm._v(_vm._s(c.created_at))
+                          ]),
+                          _vm._v(" "),
+                          _vm.user_id == c.user_id
+                            ? _c("div", [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      " ml-20 z-10 bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-2xl p-1 m-1",
+                                    attrs: { type: "submit" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.destroy(c.id)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("삭제")]
+                                )
+                              ])
+                            : _vm._e()
+                        ]
+                      )
+                    ]
+                  )
+                ])
+              ]
+            )
           ])
         ])
       })

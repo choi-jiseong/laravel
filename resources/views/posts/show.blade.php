@@ -64,8 +64,13 @@
                 onclick=location.href="{{ route('posts.like', ['id'=>$post->id, 'page'=>$page, 'in'=>$in]) }}"
                 class="text-white px-4 w-auto h-10 bg-red-600 rounded-full hover:bg-red-700 active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none">
           <svg viewBox="0 0 20 20" enable-background="new 0 0 20 20" class="w-7 h-7 inline-block mr-1">
-            <path fill="#FFFFFF" d="M17.19,4.155c-1.672-1.534-4.383-1.534-6.055,0L10,5.197L8.864,4.155c-1.672-1.534-4.382-1.534-6.054,0
+            @if ($check == true)
+              <path fill="#F432FF" d="M17.19,4.155c-1.672-1.534-4.383-1.534-6.055,0L10,5.197L8.864,4.155c-1.672-1.534-4.382-1.534-6.054,0
+            c-1.881,1.727-1.881,4.52,0,6.246L10,17l7.19-6.599C19.07,8.675,19.07,5.881,17.19,4.155z"/>
+            @else
+              <path fill="#FFFFFF" d="M17.19,4.155c-1.672-1.534-4.383-1.534-6.055,0L10,5.197L8.864,4.155c-1.672-1.534-4.382-1.534-6.054,0
                                     c-1.881,1.727-1.881,4.52,0,6.246L10,17l7.19-6.599C19.07,8.675,19.07,5.881,17.19,4.155z"/>
+            @endif 
           </svg>
           <span>{{ $post->likes_viewers()->count() }}</span>
         </button>
@@ -111,9 +116,8 @@
           @endforeach
         @endif 
       </div> --}}
-
-      <div id="app">
-        <comments user_id="{{ auth()->user()->id }}" post_id="{{ $post->id }}"></comments>
+      <div id="app" class="container m-3 bg-white rounded-3xl p-3">
+        <comments user_id="{{ auth()->user()->id }}" user_name = "{{ auth()->user()->name }}" post_id="{{ $post->id }}"></comments>
       </div>
 
 {{-- 

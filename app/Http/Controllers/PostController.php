@@ -173,6 +173,13 @@ class PostController extends Controller
         $post = Post::find($id);  // $id 값의 Post 객체 가져오기
         // $user_name = User::find($post->user_id)->name;
         $in = $request->in;
+        $like = DB::table('likes')->where('post_id', $id)->where('user_id', auth()->user()->id)->first();
+        // dd($like);
+        $check = false;
+        if($like){
+            $check = true;
+        }
+        // dd($check);
         // $post->count++; //조회수 증가시킴
         // $post->save();  //db에 반영
 
@@ -185,8 +192,8 @@ class PostController extends Controller
         }
         
         $comments = Comments::latest()->where('post_id', '=', $id)->get();
-        // dd($comments);
-        return view('posts.show', compact('post', 'page', 'in', 'comments'));  //Post 값도 보내주기
+        // dd(Auth::user());
+        return view('posts.show', compact('post', 'page', 'in', 'comments', 'check'));  //Post 값도 보내주기
     }
 
     public function like(Request $request){
