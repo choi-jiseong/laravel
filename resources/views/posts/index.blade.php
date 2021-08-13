@@ -12,7 +12,7 @@
                 <tr>
                     <td>
                         @auth 
-                         <a href="{{ route('posts.create', ['in'=>$in, 'page'=>$posts->currentPage()]) }}" class="bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-3xl p-4 m-4">게시글 작성</a>
+                         <button onclick=location.href="{{ route('posts.create', ['in'=>$in, 'page'=>$posts->currentPage()]) }}" class="bg-gray-900 border border-gray-900 shadow-lg text-gray-200 font-bold  rounded-3xl p-4 m-4">게시글 작성</button>
                         @endauth
                     </td>
                     <td>

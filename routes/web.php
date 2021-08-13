@@ -27,12 +27,7 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-
 Route::post('/posts/comment', [CommentsController::class, 'comment'])->name('posts.comment');
-
-
-
-
 
 Route::get('/chart/index', [ChartController::class, 'index'])->name('chart.index');
 

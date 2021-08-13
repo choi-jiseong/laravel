@@ -71,7 +71,7 @@
         </button>
             @endauth
     </div>
-    <div class="container m-3 bg-white rounded-3xl p-3">
+    {{-- <div class="container m-3 bg-white rounded-3xl p-3">
       <div class="form-group mb-3">
         <label class="text-xl font-bold w-full ml-8">댓글</label>
         <form action="{{ route('posts.comment', ['id'=>$post->id, 'page'=>$page, 'in'=>$in]) }}" method="post" enctype="multipart/form-data">
@@ -110,7 +110,15 @@
           </div>
           @endforeach
         @endif 
+      </div> --}}
+
+      <div id="app">
+        <comments user_id="{{ auth()->user()->id }}" post_id="{{ $post->id }}"></comments>
       </div>
-    </div>
+
+{{-- 
+
+    </div> --}}
+
   </div>
 </x-app-layout>
